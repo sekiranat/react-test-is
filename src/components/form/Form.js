@@ -6,9 +6,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { validateEmail } from '../../helpers/validate';
 
 import { ErrorText } from '../notifications';
+import { validateEmail } from '../../helpers/validate';
 
 export const Form = ({ onSubmit }) => {
     const [dataForm, setFormData] = useState({

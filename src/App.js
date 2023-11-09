@@ -3,10 +3,10 @@ import { useState, useEffect } from 'react';
 
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { Form } from './components/form';
-import { getTimePassed } from './helpers/convertTime';
 
+import { Form } from './components/form';
 import { Comment } from './components/comment';
+import { getTimePassed } from './helpers/convertTime';
 
 export default function App() {
   // сохраняем в localStorage
@@ -29,7 +29,8 @@ export default function App() {
       name: dataForm.name,
       text: dataForm.comment,
       date,
-      rating: 0
+      rating: 0,
+      hide : false
     };
     const newCommentList = { ...commentList, [id]: comment };
     setCommentList(newCommentList);
@@ -44,6 +45,22 @@ export default function App() {
   const changeRating = (id, step) => {
     const commentListNew = { ...commentList }; // копируем объект
     commentListNew[id].rating = commentListNew[id].rating + step;
+
+    if (commentListNew[id].rating < - 10)
+      changeHide(id);
+
+    setCommentList(commentListNew);
+  }
+
+    /**
+ * Меняет статус hide комментария
+ * @param   {number} id id комментария
+ * @param   {number} step шаг увеличения или уменьшения рейтинга
+ * @return  {void}
+ */
+  const changeHide = (id) => {
+    const commentListNew = { ...commentList }; // копируем объект
+    commentListNew[id].hide = !commentListNew[id].hide;
 
     setCommentList(commentListNew);
   }
@@ -63,6 +80,7 @@ export default function App() {
           hide={comment.hide}
           rating={comment.rating}
           onChangeRating={(id, rating) => changeRating(id, rating)}
+          onChangeHide={(id) => changeHide(id)}
         />
       )
     })
