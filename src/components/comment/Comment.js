@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -9,7 +7,6 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-
 import { Avatar } from '@mui/material';
 import avatarImg from '../../assets/avatar.jpeg';
 
@@ -20,20 +17,18 @@ const CommentStyled = styled(Paper)(() => ({
     textAlign: 'left',
 }));
 
-export const Comment = ({name, comment, date}) => {
-    const [count, setCount] = useState(0);
-    
+export const Comment = ({ id, name, comment, date, rating, onChangeRating }) => {
     return (
         <CommentStyled>
             <Grid container>
-                <Grid item xs={12} sm={2}>
+                <Grid item xs={12} md={4} sm={2}>
                     <Avatar
                         alt="Remy Sharp"
                         src={avatarImg}
                         sx={{ width: 140, height: 140 }}
                     />
                 </Grid>
-                <Grid item xs={12} sm={10}>
+                <Grid item xs={10} md={8} sm={10}>
                     <Typography variant="h5">
                         {name}
                     </Typography>
@@ -51,7 +46,7 @@ export const Comment = ({name, comment, date}) => {
                         aria-label="reduce"
                         variant='transparent'
                         onClick={() => {
-                            setCount(count - 1);
+                            onChangeRating(id, -1);
                         }}
                     >
                         <RemoveIcon fontSize="small" />
@@ -60,13 +55,13 @@ export const Comment = ({name, comment, date}) => {
                         sx={{
                             m: [0, 2, 0, 2]
                         }}>
-                        {count}
+                        {rating}
                     </Box>
                     <Button
                         aria-label="increase"
                         variant='transparent'
                         onClick={() => {
-                            setCount(count + 1);
+                            onChangeRating(id, 1);
                         }}
                     >
                         <AddIcon fontSize="small" />

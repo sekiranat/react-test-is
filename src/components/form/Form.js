@@ -19,6 +19,10 @@ export const Form = ({ onSubmit }) => {
 
     const [error, setError] = useState('');
 
+    /**
+     * Обработчик формы
+     * @return  {void}
+     */
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -35,6 +39,10 @@ export const Form = ({ onSubmit }) => {
         }
     };
 
+    /**
+     * Обработчик input
+     * @return  {void}
+     */
     const handleOnChangeInput = (target) => {
         const { name, value } = target;
 
