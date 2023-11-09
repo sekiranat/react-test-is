@@ -1,22 +1,49 @@
-import * as React from 'react';
+import { useState } from 'react';
+
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import { validateEmail } from '../../helpers/validate';
+
+import { ErrorText } from '../notifications';
 
 export const Form = ({ onSubmit }) => {
+    const [dataForm, setFormData] = useState({
+        name: '',
+        email: '',
+        comment: ''
+    });
+
+    const [error, setError] = useState('');
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        const dataForm = {
-            name: data.get('name'),
-            comment: data.get('comment'),
-        };
 
-        onSubmit(dataForm)
+        const formIsCorrect = validateEmail(dataForm.email)
+            && dataForm.name.length
+            && dataForm.comment.length;
+
+        if (formIsCorrect) {
+            onSubmit(dataForm);
+            setError('');
+        } else {
+            const textError = !validateEmail(dataForm.email) ? 'Email заполнен неккоректно' : 'Заполните все поля';
+            setError(textError);
+        }
     };
+
+    const handleOnChangeInput = (target) => {
+        const { name, value } = target;
+
+        const newDataForm = {
+            ...dataForm,
+            [name]: value
+        };
+        setFormData(newDataForm);
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -31,7 +58,7 @@ export const Form = ({ onSubmit }) => {
             >
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                     <Typography align="center" variant="h5">
-                        Оставьте комментарий
+                        Оставить комментарий
                     </Typography>
                     <TextField
                         margin="normal"
@@ -40,7 +67,24 @@ export const Form = ({ onSubmit }) => {
                         id="name"
                         label="Имя"
                         name="name"
+                        value={dataForm.name}
                         autoFocus
+                        onChange={(e) => {
+                            handleOnChangeInput(e.target);
+                        }}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email"
+                        name="email"
+                        value={dataForm.email}
+                        autoFocus
+                        onChange={(e) => {
+                            handleOnChangeInput(e.target);
+                        }}
                     />
                     <TextField
                         margin="normal"
@@ -51,6 +95,10 @@ export const Form = ({ onSubmit }) => {
                         id="comment"
                         rows={3}
                         multiline
+                        value={dataForm.comment}
+                        onChange={(e) => {
+                            handleOnChangeInput(e.target);
+                        }}
                     />
                     <Button
                         type="submit"
@@ -60,6 +108,9 @@ export const Form = ({ onSubmit }) => {
                     >
                         Отправить
                     </Button>
+                    <ErrorText>
+                        {error}
+                    </ErrorText>
                 </Box>
             </Box>
         </Container>
