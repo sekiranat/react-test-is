@@ -1,19 +1,21 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 
-export const Form = () => {
+export const Form = ({ onSubmit }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const dataForm = {
+            name: data.get('name'),
+            comment: data.get('comment'),
+        };
+
+        onSubmit(dataForm)
     };
 
     return (
@@ -28,6 +30,9 @@ export const Form = () => {
                 }}
             >
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <Typography align="center" variant="h5">
+                        Оставьте комментарий
+                    </Typography>
                     <TextField
                         margin="normal"
                         required
@@ -41,9 +46,9 @@ export const Form = () => {
                         margin="normal"
                         required
                         fullWidth
-                        name="password"
-                        id="name"
+                        name="comment"
                         label="Комментарий"
+                        id="comment"
                         rows={3}
                         multiline
                     />

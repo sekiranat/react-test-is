@@ -16,10 +16,11 @@ import avatarImg from '../../assets/avatar.jpeg';
 const CommentStyled = styled(Paper)(() => ({
     backgroundColor: '#fff',
     padding: '8px',
+    margin: '10px 0',
     textAlign: 'left',
 }));
 
-export const Comment = () => {
+export const Comment = ({name, comment, date}) => {
     const [count, setCount] = useState(0);
     
     return (
@@ -34,10 +35,13 @@ export const Comment = () => {
                 </Grid>
                 <Grid item xs={12} sm={10}>
                     <Typography variant="h5">
-                        Hello world
+                        {name}
                     </Typography>
-                    <Typography variant="p">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a luctus mi, eu tincidunt est. Sed sodales, nisi sit amet ultrices porta, turpis metus sollicitudin metus, quis euismod nibh erat at risus. Donec at orci eu nibh ultricies ullamcorper et et ante. Vestibulum iaculis magna dapibus nunc egestas auctor sit amet a lacus. Integer cursus dignissim tortor, non pellentesque nisl condimentum sed. Etiam semper leo non tortor iaculis, nec tristique leo lacinia. Donec bibendum enim ac turpis tincidunt venenatis. Curabitur ut consectetur tellus, id tempus mauris. Pellentesque at ligula sed tellus cursus viverra. Mauris a tortor magna. Phasellus eu dictum tellus. In hac habitasse platea dictumst.
+                    <Typography variant="body1">
+                        {comment}
+                    </Typography>
+                    <Typography variant="body2">
+                        {date}
                     </Typography>
                 </Grid>
             </Grid>
@@ -45,7 +49,7 @@ export const Comment = () => {
                 <ButtonGroup>
                     <Button
                         aria-label="reduce"
-                        variant='outlined'
+                        variant='transparent'
                         onClick={() => {
                             setCount(count - 1);
                         }}
@@ -60,7 +64,7 @@ export const Comment = () => {
                     </Box>
                     <Button
                         aria-label="increase"
-                        variant='outlined'
+                        variant='transparent'
                         onClick={() => {
                             setCount(count + 1);
                         }}
